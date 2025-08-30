@@ -22,6 +22,8 @@ import { useRoute } from "vue-router";
 const $route = useRoute()
 
 const handleMenu = () => {
+  // console.log('LayoutSettingStore.fold', LayoutSettingStore.fold);
+
   LayoutSettingStore.fold = !LayoutSettingStore.fold
 }
 

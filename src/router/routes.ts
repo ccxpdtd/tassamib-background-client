@@ -6,8 +6,7 @@ import Home from "../views/home/index.vue"
 
 import User from "../views/acl/user/index.vue"
 import Role from "../views/acl/role/index.vue"
-import Permission from "../views/acl/permission/index.vue"
-
+import AddUser from "../views/acl/add/index.vue"
 
 
 
@@ -49,7 +48,7 @@ export const myRoutes = [
     name: 'acl',
     redirect: '/acl/user',
     meta: {
-      title: '权限管理',
+      title: '用户管理',
       hidden: false,
       icon: 'HelpFilled'
     },
@@ -59,33 +58,24 @@ export const myRoutes = [
         component: User,
         name: 'user',
         meta: {
-          title: '用户管理',
+          title: '查看用户',
           hidden: false,
           icon: 'UserFilled'
         }
       },
       {
-        path: "/acl/role",
-        component: Role,
-        name: 'role',
+        path: "/acl/add",
+        component: AddUser,
+        name: 'add',
         meta: {
-          title: '角色管理',
+          title: '添加用户',
           hidden: false,
-          icon: 'ChromeFilled'
-        }
-      },
-      {
-        path: "/acl/permisson",
-        component: Permission,
-        name: 'permission',
-        meta: {
-          title: '菜单管理',
-          hidden: false,
-          icon: 'Menu'
+          icon: 'UserFilled'
         }
       },
     ]
   },
+
 
   {
     path: "/404",

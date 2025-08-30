@@ -18,7 +18,7 @@ import settings from '../../settings.ts';
   color: white;
   display: flex;
   align-items: center;
-  padding: 8px;
+  // padding: 0 0;
   box-sizing: border-box;
 
   img {
@@ -28,7 +28,8 @@ import settings from '../../settings.ts';
 
   p {
     font-size: 19px;
-    margin-left: 10px;
+    // margin-left: 10px;
+    margin: 0 auto;
 
     font-weight: 600px;
     white-space: nowrap;
