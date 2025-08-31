@@ -5,9 +5,12 @@ import NotFound from "../views/404/index.vue"
 import Home from "../views/home/index.vue"
 
 import User from "../views/acl/user/index.vue"
-import Role from "../views/acl/role/index.vue"
+
 import AddUser from "../views/acl/add/index.vue"
 
+import List from "../views/atc/list/index.vue"
+import Pub from "../views/atc/pub/index.vue"
+import Upload from "../views/atc/upload/index.vue"
 
 
 export const myRoutes = [
@@ -73,6 +76,50 @@ export const myRoutes = [
           icon: 'UserFilled'
         }
       },
+    ]
+  },
+
+  {
+    path: '/atc',
+    component: Layout,
+    name: 'atc',
+    meta: {
+      title: '文章管理',
+      hidden: false,
+      icon: 'HelpFilled'
+    },
+    children: [
+      {
+        path: "/atc/list",
+        component: List,
+        name: 'list',
+        meta: {
+          title: '文章列表',
+          hidden: false,
+          icon: 'UserFilled'
+        }
+      },
+      {
+        path: "/atc/pub",
+        component: Pub,
+        name: 'pub',
+        meta: {
+          title: '发布文章',
+          hidden: false,
+          icon: 'UserFilled'
+        }
+      },
+      {
+        path: "/atc/upload",
+        component: Upload,
+        name: 'upload',
+        meta: {
+          title: '上传文章',
+          hidden: false,
+          icon: 'UserFilled'
+        }
+      },
+
     ]
   },
 

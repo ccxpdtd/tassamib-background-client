@@ -7,6 +7,7 @@ let useUserStore = defineStore('User', {
   state: () => {
     return {
       token: localStorage.getItem('token') || '',
+      username: localStorage.getItem('username') || '',
       myRoutes: myRoutes,
 
       users: [] as Users,
@@ -18,7 +19,9 @@ let useUserStore = defineStore('User', {
       let res = await axios.post('http://localhost:9001/api/login', data)
       if (res.data.code === 200 && res.data.role === 'admin') {
         this.token = res.data.token
+        this.username = res.data.username
         localStorage.setItem('token', res.data.token)
+        localStorage.setItem('username', res.data.username)
         return 'ok'
       }
       else {
