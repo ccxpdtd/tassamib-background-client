@@ -18,7 +18,7 @@ let useUserStore = defineStore('User', {
   actions: {
     //登录
     async login(data: any) {
-      let res = await axios.post('http://localhost:9001/api/login', data)
+      let res = await axios.post('/api/login', data)
 
       console.log('login_res', res);
 
@@ -99,7 +99,6 @@ let useUserStore = defineStore('User', {
 
         this.users = res.data.user
         this.userTotal = res.data.total
-
         return 'ok'
       }
       else {

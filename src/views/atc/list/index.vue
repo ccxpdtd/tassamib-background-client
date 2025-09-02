@@ -58,60 +58,32 @@ let users = ref<any>()
 onMounted(() => {
   getArticles()
 })
+//获取文章信息
 const getArticles = async () => {
-  await ArticleStore.getArticles()
-  users.value = ArticleStore.articles
+  try {
+    await ArticleStore.getArticles()
+    users.value = ArticleStore.articles
+  } catch (error) {
+    ElNotification({ type: 'error', message: '获取失败' })
+  }
 }
 const deleteArticle = async (id: number) => {
   try {
     await ArticleStore.delArticle(id)
     getArticles()
-    ElNotification({
-      type: 'success',
-      message: '删除文章成功'
-    })
-
+    ElNotification({ type: 'success', message: '删除成功' })
   } catch (error) {
-    ElNotification({
-      type: 'error',
-      message: '删除文章失败'
-    })
+    ElNotification({ type: 'error', message: '删除失败' })
   }
-
 }
 
 const goToArticle = (id: number) => {
   try {
     $router.push({ path: "/atc/view", query: { id } })
   } catch (error) {
-    ElNotification({
-      type: 'error',
-      message: '查看失败'
-    })
+    ElNotification({ type: 'error', message: '查看失败' })
   }
 }
-/*
-const deleteUser = async (id: number) => {
-
-  try {
-    await ArticleStore.getArticles(id)
-    getArticles()
-    ElNotification({
-      type: 'success',
-      message: '删除用户成功'
-    })
-
-  } catch (error) {
-    ElNotification({
-      type: 'error',
-      message: '删除用户失败'
-    })
-  }
-
-}
-*/
-
-
 
 </script>
 

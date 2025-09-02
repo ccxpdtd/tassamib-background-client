@@ -5,7 +5,7 @@
       <el-col :span="12" :xs="24">
         <el-form class="login_form" :model="loginForm" :rules="rules" ref="loginFormRef">
           <h1>Hello</h1>
-          <h2>欢迎来到硅谷甄选</h2>
+          <h2>欢迎来到后台运营平台</h2>
 
           <el-form-item prop="username">
             <el-input :prefix-icon="User" v-model="loginForm.uname" placeholder="请输入账号">
@@ -76,26 +76,22 @@ let rules = {
 }
 let loginFormRef = ref()
 
+//登录
 let handleLogin = async () => {
   //等待规则校验
   await loginFormRef.value.validate()
+
+
   //更改登录icon状态
   loading.value = true
-
+  //保存路由重定向地址
   let redirect: any = $route.query.redirect
   try {
     await userStore.login(loginForm)
     $router.push({ path: redirect || '/home' })
-    ElNotification({
-      type: 'success',
-      message: '欢迎回来',
-      title: getTime()
-    })
+    ElNotification({ type: 'success', message: '欢迎回来', title: getTime() })
   } catch (error) {
-    ElNotification({
-      type: 'error',
-      message: '登录失败'
-    })
+    ElNotification({ type: 'error', message: '登录失败' })
   } finally {
     loading.value = false
   }

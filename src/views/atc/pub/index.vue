@@ -77,7 +77,6 @@ let rules = {
   ]
 }
 
-
 let pubFormRef = ref()
 
 
@@ -99,10 +98,7 @@ const upload = () => {
   if (editorInstance) {
     const content = editorInstance.getMarkdown()
     if (!content) {
-      return ElNotification({
-        type: 'error',
-        message: '请输入内容'
-      })
+      return ElNotification({ type: 'error', message: '请输入内容' })
     } else {
       ArticleStore.uploadArticle({
         uname: userStore.username,
@@ -112,7 +108,7 @@ const upload = () => {
         content
       })
 
-      // 触发下载为 txt 文件
+      // 触发下载为 md 文件
       const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
@@ -121,10 +117,7 @@ const upload = () => {
       a.click()
       URL.revokeObjectURL(url)
 
-      ElNotification({
-        type: 'success',
-        message: '发布文章成功'
-      })
+      ElNotification({ type: 'success', message: '发布文章成功' })
     }
   }
 }
@@ -137,12 +130,8 @@ const submit = async () => {
     await pubFormRef.value.validate()
     upload()
   } catch (err) {
-    ElNotification({
-      type: 'error',
-      message: '发布文章失败'
-    })
+    ElNotification({ type: 'error', message: '发布文章失败' })
   }
-
 
 }
 
@@ -159,9 +148,6 @@ onBeforeUnmount(() => {
   max-width: 98%;
   margin: 20px auto;
 }
-
-
-
 
 /* tooltip 显示在按钮上方 */
 .toastui-editor-defaultUI .tui-editor-popup {

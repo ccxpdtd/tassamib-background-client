@@ -35,7 +35,6 @@
         </template>
       </el-table-column>
 
-
     </el-table>
 
   </el-card>
@@ -59,18 +58,18 @@ const addUser = () => {
       flag: {
         nameFlag: true,
         pswFlag: true,
-        roleFlag: true
+        // roleFlag: true
       }
     }
   )
 }
 
+//更改用户信息状态，浏览<----->编辑
 const changeFlag = (index: number, key: string) => {
   user.value[index].flag[key] = !user.value[index].flag[key]
-  // console.log(user.value[index].flag[key]);
 }
 
-
+//收集信息，创建用户
 const save = async (user: any) => {
   user.username = user.username || '匿名用户'
   user.password = user.password || '123456'
@@ -78,24 +77,12 @@ const save = async (user: any) => {
 
   try {
     await UserStore.addUser(user)
-    ElNotification({
-      type: 'success',
-      message: '添加用户成功'
-    })
+    ElNotification({ type: 'success', message: '添加用户成功' })
   } catch (error) {
-    ElNotification({
-      type: 'error',
-      message: '添加用户失败'
-    })
+    ElNotification({ type: 'error', message: '添加用户失败' })
   }
 
 }
-
-
-
-
-
-
 
 </script>
 

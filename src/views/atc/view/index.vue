@@ -35,13 +35,14 @@ onMounted(() => {
 
 })
 
+//获取指定文章
 const getArticle = async () => {
   await ArticleStore.getArticle($route.query.id)
   markdownContent = ArticleStore.article
   console.log('markdownContent', markdownContent);
   createViewer()
 }
-
+//创建展示器
 const createViewer = () => {
 
   viewerInstance = new Viewer({
@@ -57,8 +58,6 @@ const createViewer = () => {
     })
   })
 }
-
-
 
 onBeforeUnmount(() => {
   if (viewerInstance) {

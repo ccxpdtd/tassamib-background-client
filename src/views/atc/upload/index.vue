@@ -95,10 +95,7 @@ function handleFileChange(file: any) {
     }
     reader.readAsText(file.raw)
   } else {
-    ElNotification({
-      type: 'error',
-      message: '请上传 .md文件'
-    })
+    ElNotification({ type: 'error', message: '请上传 .md文件' })
   }
 }
 
@@ -119,21 +116,10 @@ const submit = async () => {
   try {
     await uploadFormRef.value.validate()
     upload()
-    return ElNotification({
-      type: 'success',
-      message: '上传文章成功'
-    })
+    return ElNotification({ type: 'success', message: '上传文章成功' })
   } catch (error) {
-    return ElNotification({
-      type: 'error',
-      message: '上传文章失败'
-    })
+    return ElNotification({ type: 'error', message: '上传文章失败' })
   }
-
-
-
-
-
 }
 </script>
 <style>

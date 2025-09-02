@@ -66,47 +66,44 @@ onMounted(() => {
   getUsers()
 })
 
+//获取用户信息
 const getUsers = async (page = 1) => {
   pageNo.value = page
-  const payload = { pageNo: pageNo.value, limit: pageSize.value }
-  await UserStore.getUsers(payload)
+  try {
+    const payload = { pageNo: pageNo.value, limit: pageSize.value }
+    await UserStore.getUsers(payload)
+    users.value = UserStore.users
+    total.value = UserStore.userTotal
+  } catch (error) {
+    ElNotification({ type: 'error', message: '获取失败' })
+  }
 
-  users.value = UserStore.users
-  total.value = UserStore.userTotal
 }
 
 const deleteUser = async (id: number) => {
-
   try {
     await UserStore.delUser(id)
-
     ElNotification({
       type: 'success',
       message: '删除用户成功'
     })
-
     searchUser()
-
   } catch (error) {
-    ElNotification({
-      type: 'error',
-      message: '删除用户失败'
-    })
+    ElNotification({ type: 'error', message: '删除用户失败' })
   }
 
 }
 
 const searchUser = async () => {
-  if (!searchUserName.value) { return getUsers(users.value.length > 1 ? pageNo.value : pageNo.value - 1) }
+  if (!searchUserName.value) return getUsers(users.value.length > 1 ? pageNo.value : pageNo.value - 1)
 
   try {
     const payload: any = { pageNo: pageNo.value, limit: pageSize.value, username: searchUserName.value }
     await UserStore.searchUser(payload)
-
     users.value = UserStore.users
     total.value = UserStore.userTotal
   } catch (error) {
-
+    ElNotification({ type: 'error', message: '查找用户失败' })
   }
 
 }
@@ -114,27 +111,17 @@ const searchUser = async () => {
 const changePageSize = () => {
   searchUser()
 }
-
+//更改用户权限
 const changeRole = async (id: number, role: string) => {
   role = role === 'admin' ? 'user' : 'admin'
-
   try {
     await UserStore.changeRole({ id, role })
     getUsers()
-    ElNotification({
-      type: 'success',
-      message: '更改权限成功'
-    })
+    ElNotification({ type: 'success', message: '更改权限成功' })
   } catch (error) {
-    ElNotification({
-      type: 'error',
-      message: '更改权限失败'
-    })
+    ElNotification({ type: 'error', message: '更改权限失败' })
   }
 }
-
-
-
 
 
 </script>
