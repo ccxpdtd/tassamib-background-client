@@ -13,31 +13,31 @@ import 'nprogress/nprogress.css'
 // const userStore = useUserStore(Pinia)
 
 
-router.beforeEach((to: any, from: any, next: any) => {
+router.beforeEach((_to: any, _from: any, _next: any) => {
 
   nprogress.start()
 
   let token = localStorage.getItem('token')
 
-  document.title = `${settings.logo.title} - ${to.meta.title}`
+  document.title = `${settings.logo.title} - ${_to.meta.title}`
 
   if (token) {
-    if (to.path == '/login') {
-      next({ path: '/' })
+    if (_to.path == '/login') {
+      _next({ path: '/' })
     } else {
-      next()
+      _next()
     }
   }
   else {
-    if (to.path == '/login') {
-      next()
+    if (_to.path == '/login') {
+      _next()
     } else {
-      next({ path: '/login', query: { redirect: to.path } })
+      _next({ path: '/login', query: { redirect: _to.path } })
     }
   }
 
 })
-router.afterEach((to: any, from: any) => {
+router.afterEach((_to: any, _from: any) => {
   nprogress.done()
 
 })

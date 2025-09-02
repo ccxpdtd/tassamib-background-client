@@ -11,6 +11,7 @@ import AddUser from "../views/acl/add/index.vue"
 import List from "../views/atc/list/index.vue"
 import Pub from "../views/atc/pub/index.vue"
 import Upload from "../views/atc/upload/index.vue"
+import View from "../views/atc/view/index.vue"
 
 
 export const myRoutes = [
@@ -116,6 +117,16 @@ export const myRoutes = [
         meta: {
           title: '上传文章',
           hidden: false,
+          icon: 'UserFilled'
+        }
+      },
+      {
+        path: "/atc/view",
+        component: View,
+        name: 'view',
+        meta: {
+          title: '查看文章',
+          hidden: true,
           icon: 'UserFilled'
         }
       },

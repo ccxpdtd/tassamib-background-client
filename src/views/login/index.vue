@@ -8,12 +8,12 @@
           <h2>欢迎来到硅谷甄选</h2>
 
           <el-form-item prop="username">
-            <el-input :prefix-icon="User" v-model="loginForm.uname">
+            <el-input :prefix-icon="User" v-model="loginForm.uname" placeholder="请输入账号">
             </el-input>
           </el-form-item>
 
           <el-form-item prop="password">
-            <el-input :prefix-icon="Lock" type="password" show-password v-model="loginForm.psw">
+            <el-input :prefix-icon="Lock" type="password" show-password v-model="loginForm.psw" placeholder="请输入密码">
             </el-input>
           </el-form-item>
 
@@ -66,8 +66,8 @@ const validatorPassword = (_rules: any, value: any, callback: any) => {
 }
 
 let loginForm = reactive({
-  uname: '1',
-  psw: '111111'
+  uname: '',
+  psw: ''
 })
 let loading = ref(false)
 let rules = {

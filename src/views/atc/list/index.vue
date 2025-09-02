@@ -24,7 +24,7 @@
       <el-table-column label="操作" align="center">
         <template #="{ row }">
 
-          <el-button type="primary" size="small">查看</el-button>
+          <el-button type="primary" size="small" @click="goToArticle(row.id)">查看</el-button>
 
           <el-popconfirm title="确定删除?" @confirm="deleteArticle(row.id)">
             <template #reference>
@@ -48,6 +48,9 @@ import { ref, onMounted } from 'vue'
 import useArticleStore from '../../../store/modules/articles'
 import { ElNotification } from 'element-plus'
 const ArticleStore = useArticleStore()
+
+import { useRouter } from 'vue-router'
+const $router = useRouter()
 
 let users = ref<any>()
 
@@ -77,6 +80,16 @@ const deleteArticle = async (id: number) => {
 
 }
 
+const goToArticle = (id: number) => {
+  try {
+    $router.push({ path: "/atc/view", query: { id } })
+  } catch (error) {
+    ElNotification({
+      type: 'error',
+      message: '查看失败'
+    })
+  }
+}
 /*
 const deleteUser = async (id: number) => {
 

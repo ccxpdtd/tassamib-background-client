@@ -84,7 +84,7 @@ let pubFormRef = ref()
 onMounted(() => {
   editorInstance = new Editor({
     el: editorRef.value,
-    height: '500px',
+    height: '600px',
     initialEditType: 'markdown',
     previewStyle: 'vertical',
     useCommandShortcut: true,

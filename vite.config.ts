@@ -14,6 +14,17 @@ export default defineConfig({
       symbolId: 'icon-[dir]-[name]',
     }),
   ],
+  server: {
+    host: '0.0.0.0', // 可以让外部访问 5173
+    port: 9003,
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:9001', // 云服务器本地 9001
+        changeOrigin: true,
+        // rewrite: path => path.replace(/^\/api/, '/api'),
+      },
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {

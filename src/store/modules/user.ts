@@ -17,6 +17,9 @@ let useUserStore = defineStore('User', {
     //登录
     async login(data: any) {
       let res = await axios.post('http://localhost:9001/api/login', data)
+
+      console.log('login_res', res);
+
       if (res.data.code === 200 && res.data.role === 'admin') {
         this.token = res.data.token
         this.username = res.data.username
@@ -30,7 +33,10 @@ let useUserStore = defineStore('User', {
     },
     //获取用户信息
     async getUsers() {
-      let res = await axios.get('http://localhost:9001/admin/get_user')
+      let res = await axios.get('/api/admin/get_user')
+
+      console.log('getUsers_res', res);
+
       if (res.data.code === 200) {
         this.users = res.data.data
         return 'ok'
@@ -41,7 +47,10 @@ let useUserStore = defineStore('User', {
     },
     //添加用户
     async addUser(data: any) {
-      let res = await axios.post('http://localhost:9001/admin/add_user', data)
+      let res = await axios.post('/api/admin/add_user', data)
+
+      console.log('addUser', res);
+
       if (res.data.code === 200) {
         this.users = [...this.users, res.data.data]
         return 'ok'
@@ -52,7 +61,10 @@ let useUserStore = defineStore('User', {
     },
     //删除用户
     async delUser(id: number) {
-      let res = await axios.post('http://localhost:9001/admin/del_user', { id })
+      let res = await axios.post('/api/admin/del_user', { id })
+
+      console.log('delUser_res', res);
+
       if (res.data.code === 200) {
         return 'ok'
       }
@@ -62,10 +74,10 @@ let useUserStore = defineStore('User', {
     },
     //更改权限
     async changeRole(data: any) {
-      console.log(data);
 
-      let res = await axios.post('http://localhost:9001/admin/change_role', data)
-      console.log('res', res);
+
+      let res = await axios.post('/api/admin/change_role', data)
+      console.log('changeRole_res', res);
 
       if (res.data.code === 200) {
         return 'ok'
