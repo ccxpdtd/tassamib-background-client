@@ -1,7 +1,11 @@
 <template>
+
   <el-card class="box">
 
-    <el-table style="margin:15px;" :data="users">
+    <el-input type="text" autocomplete="off" style="margin-left:10px;width:170px;" placeholder="搜索用户名"
+      v-model="searchUserName" @input="searchUser" />
+
+    <el-table style="margin:15px" :data="users">
       <el-table-column label="序号" width="60px" align="center" type="index">
 
       </el-table-column>
@@ -26,19 +30,21 @@
         <template #="{ row }">
           <el-popconfirm title="确定删除该用户?" @confirm="deleteUser(row.id)">
             <template #reference>
-              <el-button type="danger" size="small">删除用户</el-button>
+              <el-button type="danger" size="small">注销</el-button>
             </template>
           </el-popconfirm>
-
           <el-button type="primary" size="small" @click="changeRole(row.id, row.role)">更改权限</el-button>
-
         </template>
-
 
       </el-table-column>
     </el-table>
 
+    <el-pagination v-model:current-page="pageNo" v-model:page-size="pageSize" :page-sizes="[3, 5, 7, 9]"
+      :background="true" layout="prev, pager, next, jumper,->,total, sizes" :total="total" @size-change="changePageSize"
+      @current-change="searchUser" />
+
   </el-card>
+
 </template>
 
 <script setup lang='ts'>
@@ -48,26 +54,38 @@ import { ElNotification } from 'element-plus'
 import useUserStore from '../../../store/modules/user'
 const UserStore = useUserStore()
 
-let users = ref<any>()
+let searchUserName = ref<string>('')
 
+let users = ref<any>()
+let total = ref<number>()
+
+let pageNo = ref(1)
+let pageSize = ref(5)
 
 onMounted(() => {
   getUsers()
 })
-const getUsers = async () => {
-  await UserStore.getUsers()
+
+const getUsers = async (page = 1) => {
+  pageNo.value = page
+  const payload = { pageNo: pageNo.value, limit: pageSize.value }
+  await UserStore.getUsers(payload)
+
   users.value = UserStore.users
+  total.value = UserStore.userTotal
 }
 
 const deleteUser = async (id: number) => {
 
   try {
     await UserStore.delUser(id)
-    getUsers()
+
     ElNotification({
       type: 'success',
       message: '删除用户成功'
     })
+
+    searchUser()
 
   } catch (error) {
     ElNotification({
@@ -76,6 +94,25 @@ const deleteUser = async (id: number) => {
     })
   }
 
+}
+
+const searchUser = async () => {
+  if (!searchUserName.value) { return getUsers(users.value.length > 1 ? pageNo.value : pageNo.value - 1) }
+
+  try {
+    const payload: any = { pageNo: pageNo.value, limit: pageSize.value, username: searchUserName.value }
+    await UserStore.searchUser(payload)
+
+    users.value = UserStore.users
+    total.value = UserStore.userTotal
+  } catch (error) {
+
+  }
+
+}
+
+const changePageSize = () => {
+  searchUser()
 }
 
 const changeRole = async (id: number, role: string) => {
@@ -95,6 +132,8 @@ const changeRole = async (id: number, role: string) => {
     })
   }
 }
+
+
 
 
 

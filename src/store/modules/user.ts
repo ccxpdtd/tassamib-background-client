@@ -11,6 +11,8 @@ let useUserStore = defineStore('User', {
       myRoutes: myRoutes,
 
       users: [] as Users,
+      userTotal: 0,
+      user: {},
     }
   },
   actions: {
@@ -32,13 +34,15 @@ let useUserStore = defineStore('User', {
       }
     },
     //获取用户信息
-    async getUsers() {
-      let res = await axios.get('/api/admin/get_user')
+    async getUsers(payload: any) {
+
+      let res = await axios.post('/api/admin/get_user', payload)
 
       console.log('getUsers_res', res);
 
       if (res.data.code === 200) {
-        this.users = res.data.data
+        this.users = res.data.data.user
+        this.userTotal = res.data.data.total
         return 'ok'
       }
       else {
@@ -75,7 +79,6 @@ let useUserStore = defineStore('User', {
     //更改权限
     async changeRole(data: any) {
 
-
       let res = await axios.post('/api/admin/change_role', data)
       console.log('changeRole_res', res);
 
@@ -86,7 +89,27 @@ let useUserStore = defineStore('User', {
         return Promise.reject(new Error(res.data.msg))
       }
     },
+    async searchUser(data: any) {
+
+      let res = await axios.post('/api/admin/search_user', data)
+
+      console.log('searchUser_res', res);
+
+      if (res.data.code === 200) {
+
+        this.users = res.data.user
+        this.userTotal = res.data.total
+
+        return 'ok'
+      }
+      else {
+        return Promise.reject(new Error(res.data.msg))
+      }
+
+
+    }
   },
+
   getters: {
 
   }
