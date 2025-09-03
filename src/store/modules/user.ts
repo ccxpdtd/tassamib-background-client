@@ -33,6 +33,13 @@ let useUserStore = defineStore('User', {
         return Promise.reject(new Error(res.data.msg))
       }
     },
+
+    userAddFlag() {
+      this.users.forEach(user => {
+        user.changePswFlag = false
+      })
+    },
+
     //获取用户信息
     async getUsers(payload: any) {
 
@@ -43,6 +50,7 @@ let useUserStore = defineStore('User', {
       if (res.data.code === 200) {
         this.users = res.data.data.user
         this.userTotal = res.data.data.total
+        this.userAddFlag()
         return 'ok'
       }
       else {
@@ -57,6 +65,7 @@ let useUserStore = defineStore('User', {
 
       if (res.data.code === 200) {
         this.users = [...this.users, res.data.data]
+        this.userAddFlag()
         return 'ok'
       }
       else {
@@ -90,24 +99,33 @@ let useUserStore = defineStore('User', {
       }
     },
     async searchUser(data: any) {
-
       let res = await axios.post('/api/admin/search_user', data)
 
       console.log('searchUser_res', res);
 
       if (res.data.code === 200) {
-
         this.users = res.data.user
         this.userTotal = res.data.total
+        this.userAddFlag()
         return 'ok'
       }
       else {
         return Promise.reject(new Error(res.data.msg))
       }
+    },
+    async changePsw(data: any) {
+      let res = await axios.post('/api/admin/change_psw', data)
 
-
+      console.log('changePsw_res', res);
+      if (res.data.code === 200) {
+        return 'ok'
+      }
+      else {
+        return Promise.reject(new Error(res.data.msg))
+      }
     }
   },
+
 
   getters: {
 

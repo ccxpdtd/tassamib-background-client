@@ -3,6 +3,7 @@ interface User {
   username: String,
   password: String,
   role: String,
+  changePswFlag: boolean
 
 }
 
