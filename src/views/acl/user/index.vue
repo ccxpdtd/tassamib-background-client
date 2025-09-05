@@ -17,7 +17,8 @@
       <el-table-column label="密码" align="center">
         <template #="{ row, $index }">
           <span v-if="!row.changePswFlag">{{ row.password }}</span>
-          <el-input v-else v-model="row.password" @blur="savePsw($index, row.id, row.password)"></el-input>
+          <el-input v-else v-model="row.password" @keyup.enter="savePsw($index, row.id, row.password)"
+            @blur="savePsw($index, row.id, row.password)"></el-input>
         </template>
       </el-table-column>
       <el-table-column label="角色" width="80px" align="center">

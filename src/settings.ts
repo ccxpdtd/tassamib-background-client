@@ -1,6 +1,6 @@
 export default {
   logo: {
-    title: "博客后台管理平台",
+    title: "",
     src: '../logo.png',
     logoHidden: true
   }

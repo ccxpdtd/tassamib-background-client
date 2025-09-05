@@ -5,13 +5,15 @@ import NotFound from "../views/404/index.vue"
 import Home from "../views/home/index.vue"
 
 import User from "../views/acl/user/index.vue"
-
 import AddUser from "../views/acl/add/index.vue"
 
 import List from "../views/atc/list/index.vue"
 import Pub from "../views/atc/pub/index.vue"
 import Upload from "../views/atc/upload/index.vue"
 import View from "../views/atc/view/index.vue"
+
+import Message from "../views/msg/message/index.vue"
+import Reply from "../views/msg/comment/index.vue"
 
 
 export const myRoutes = [
@@ -130,7 +132,36 @@ export const myRoutes = [
           icon: 'UserFilled'
         }
       },
-
+    ]
+  },
+  {
+    path: "/msg",
+    component: Layout,
+    name: 'msg',
+    meta: {
+      title: '消息管理',
+      hidden: false,
+      icon: 'Avatar',
+    },
+    children: [
+      {
+        path: '/message',
+        component: Message,
+        meta: {
+          title: '留言板',
+          hidden: false,
+          icon: 'HomeFilled'
+        }
+      },
+      {
+        path: '/reply',
+        component: Reply,
+        meta: {
+          title: '回复板',
+          hidden: false,
+          icon: 'HomeFilled'
+        }
+      },
     ]
   },
 

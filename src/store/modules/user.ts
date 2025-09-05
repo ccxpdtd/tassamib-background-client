@@ -33,7 +33,7 @@ let useUserStore = defineStore('User', {
         return Promise.reject(new Error(res.data.msg))
       }
     },
-
+    //给用户添加changePswFlag属性，用于user组件（用户列表）更改密码编辑状态
     userAddFlag() {
       this.users.forEach(user => {
         user.changePswFlag = false
@@ -64,8 +64,6 @@ let useUserStore = defineStore('User', {
       console.log('addUser', res);
 
       if (res.data.code === 200) {
-        this.users = [...this.users, res.data.data]
-        this.userAddFlag()
         return 'ok'
       }
       else {

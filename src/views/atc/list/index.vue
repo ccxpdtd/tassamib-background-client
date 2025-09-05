@@ -3,34 +3,41 @@
 
     <el-table style="margin:15px;" :data="users">
       <el-table-column label="序号" width="60px" align="center" type="index">
-
       </el-table-column>
-      <el-table-column label="标题" align="center">
+
+      <el-table-column label="标题" width="150px" align="center">
         <template #="{ row }">
           {{ row.title }}
         </template>
       </el-table-column>
-      <el-table-column label="简介" align="center">
-        <template #="{ row }">
-          {{ row.description }}
-        </template>
-      </el-table-column>
-      <el-table-column label="作者" width="120px" align="center">
+
+      <el-table-column label="作者" width="100px" align="center">
         <template #="{ row }">
           {{ row.author }}
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center">
+      <el-table-column label="简介" width="auto" align="center">
         <template #="{ row }">
+          <p class="preview">{{ row.description }}</p>
+          <!-- {{ row.description }} -->
+        </template>
+      </el-table-column>
+
+
+      <el-table-column label="操作" align="center">
+        <template #="{ row, $index }">
 
           <el-button type="primary" size="small" @click="goToArticle(row.id)">查看</el-button>
+          <el-button type="primary" size="small" @click="editArticle($index)">编辑</el-button>
+
 
           <el-popconfirm title="确定删除?" @confirm="deleteArticle(row.id)">
             <template #reference>
               <el-button type="danger" size="small">删除</el-button>
             </template>
           </el-popconfirm>
+
 
         </template>
 
@@ -85,12 +92,25 @@ const goToArticle = (id: number) => {
   }
 }
 
+const editArticle = (index: number) => {
+  try {
+    $router.push({ path: "/atc/pub", query: { index } })
+  } catch (error) {
+    ElNotification({ type: 'error', message: '编辑失败' })
+  }
+}
+
 </script>
 
 <style>
 .box {
   width: 90%;
   margin: 20px auto;
+
+}
+
+.preview {
+  white-space: pre-wrap;
 
 }
 </style>

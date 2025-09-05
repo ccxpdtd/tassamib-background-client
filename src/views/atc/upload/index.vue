@@ -33,14 +33,17 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+
 import useUserStore from '../../../store/modules/user'
 let userStore = useUserStore()
 import useArticleStore from '../../../store/modules/articles'
-import { ElNotification } from 'element-plus'
 const ArticleStore = useArticleStore()
 
-const uname = userStore.username
+import { ElNotification } from 'element-plus'
 
+
+
+const uname = userStore.username
 
 const fileName = ref('')
 const Content = ref('')

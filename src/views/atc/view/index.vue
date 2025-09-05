@@ -27,7 +27,7 @@ const viewerRef = ref(null)
 let viewerInstance: any = null
 
 // 模拟传入的 Markdown 内容
-let markdownContent = ''
+let markdownContent: any
 
 onMounted(() => {
   //获取文章
@@ -39,7 +39,6 @@ onMounted(() => {
 const getArticle = async () => {
   await ArticleStore.getArticle($route.query.id)
   markdownContent = ArticleStore.article
-  console.log('markdownContent', markdownContent);
   createViewer()
 }
 //创建展示器

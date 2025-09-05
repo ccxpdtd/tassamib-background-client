@@ -1,7 +1,7 @@
 <template>
   <el-card class="box">
     <el-button type="primary" @click="addUser">添加用户</el-button>
-    <el-table style="margin:15px;" :data="user">
+    <el-table style="margin:15px;" :data="users">
       <el-table-column label="序号" width="80px" align="center" type="index"></el-table-column>
 
       <el-table-column label="用户名" align="center">
@@ -30,8 +30,8 @@
       </el-table-column>
 
       <el-table-column label='操作' align='center' width="150px">
-        <template #="{ row }">
-          <el-button type="primary" @click="save(row)">保存</el-button>
+        <template #="{ row, $index }">
+          <el-button type="primary" @click="save(row, $index)">保存</el-button>
         </template>
       </el-table-column>
 
@@ -46,11 +46,12 @@ import { ElNotification } from 'element-plus'
 import useUserStore from '../../../store/modules/user'
 const UserStore = useUserStore()
 
-let user = ref<any>([])
+let users = ref<any>([])
 
 
 const addUser = () => {
-  user.value.push(
+
+  users.value.push(
     {
       username: '',
       password: '',
@@ -58,29 +59,36 @@ const addUser = () => {
       flag: {
         nameFlag: true,
         pswFlag: true,
-        // roleFlag: true
       }
     }
   )
+
+
 }
+
 
 //更改用户信息状态，浏览<----->编辑
 const changeFlag = (index: number, key: string) => {
-  user.value[index].flag[key] = !user.value[index].flag[key]
+  users.value[index].flag[key] = !users.value[index].flag[key]
 }
 
 //收集信息，创建用户
-const save = async (user: any) => {
+const save = async (user: any, index: number) => {
+
+
   user.username = user.username || '匿名用户'
   user.password = user.password || '123456'
   user.role = user.role || 'user'
 
   try {
     await UserStore.addUser(user)
+
     ElNotification({ type: 'success', message: '添加用户成功' })
+    users.value.splice(index, 1)
   } catch (error) {
     ElNotification({ type: 'error', message: '添加用户失败' })
   }
+
 
 }
 
