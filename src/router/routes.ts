@@ -145,19 +145,19 @@ export const myRoutes = [
     },
     children: [
       {
-        path: '/message',
+        path: '/msg/message',
         component: Message,
         meta: {
-          title: '留言板',
+          title: '留言面板',
           hidden: false,
           icon: 'HomeFilled'
         }
       },
       {
-        path: '/reply',
+        path: '/msg/reply',
         component: Reply,
         meta: {
-          title: '回复板',
+          title: '评论面板',
           hidden: false,
           icon: 'HomeFilled'
         }

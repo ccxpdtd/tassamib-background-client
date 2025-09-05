@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 // import { myRoutes } from '../../router/routes'
 import axios from 'axios'
-// import type { Users } from '../../type/user'
+import type { Messages } from '../../type/message'
 
 let useMessageStore = defineStore('Message', {
   state: () => {
     return {
-      messages: [],
+      messages: [] as Messages,
       comments: []
     }
   },

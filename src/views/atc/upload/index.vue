@@ -115,7 +115,13 @@ const upload = () => {
 }
 
 const submit = async () => {
+  const id = ArticleStore.checkArticle(form.title)
+  if (id) {
+    if (confirm("已有相同文章，是否覆盖？")) {
+      await ArticleStore.delArticle(id)
+    } else return
 
+  }
   try {
     await uploadFormRef.value.validate()
     upload()

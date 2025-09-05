@@ -24,7 +24,7 @@
       <el-table-column label="评论量" align="center">
         <template #="{ row }">
           <span>{{ row.comment_count }}</span>
-          <el-button size="small" type="primary" style="margin-left:15px;">查看</el-button>
+          <el-button size="small" type="primary" style="margin-left:15px;" @click="goToReplies(row.id)">查看</el-button>
         </template>
       </el-table-column>
 
@@ -58,20 +58,42 @@
 <script setup lang='ts'>
 import { ref, onMounted } from 'vue';
 import { ElNotification } from 'element-plus';
+import type { Messages } from '../../../type/message'
+
 
 import useMessageStore from '../../../store/modules/messages'
 const MessageStore = useMessageStore()
 
+import { useRouter } from 'vue-router';
+const $router = useRouter()
 
-let messages = ref([])
+import { useRoute } from 'vue-router';
+const $route = useRoute()
+let targetMsgMid
+
+let messages = ref<Messages>([])
 let searchKey = ref<string>('')
 
 onMounted(() => {
-  getMessage()
+  //从评论面板携带参数过来
+  if ($route.query.mid) {
+    //转整型
+    const mid = $route.query.mid
+    targetMsgMid = Array.isArray(mid)
+      ? (mid[0] ? parseInt(mid[0]) : null)
+      : typeof mid === 'string'
+        ? parseInt(mid)
+        : null
+    //取replies
+    if (targetMsgMid !== null) {
+      getTargrtMessages(targetMsgMid)
+    }
+  } else
+    //获取所有留言
+    getMessages()
 })
 
-const getMessage = async () => {
-
+const getMessages = async () => {
   try {
     await MessageStore.getMessages()
     messages.value = MessageStore.messages
@@ -85,7 +107,7 @@ const deleteMessage = async (id: number) => {
   try {
     await MessageStore.delMessages(id)
     ElNotification({ type: 'success', message: '删除成功' })
-    getMessage()
+    getMessages()
   } catch (error: any) {
     ElNotification({ type: 'error', message: '删除失败' })
   }
@@ -93,9 +115,8 @@ const deleteMessage = async (id: number) => {
 }
 
 const searchUserOrMsg = async () => {
-  // console.log('sss');
 
-  if (!searchKey.value) return getMessage()
+  if (!searchKey.value) return getMessages()
   //发送请求到后端
   try {
     await MessageStore.searchUserOrMsg(searchKey.value)
@@ -104,6 +125,26 @@ const searchUserOrMsg = async () => {
   } catch (error: any) {
     ElNotification({ type: 'error', message: '查询失败' })
   }
+}
+
+const goToReplies = (mid: number) => {
+  try {
+    $router.push({ path: "/msg/reply", query: { mid } })
+  } catch (error) {
+    ElNotification({ type: 'error', message: '查看失败' })
+  }
+}
+//获取目标留言
+const getTargrtMessages = async (mid: number) => {
+
+  try {
+    await MessageStore.getMessages()
+    messages.value = MessageStore.messages
+    messages.value = messages.value.filter(msg => msg.id === mid)
+  } catch (error) {
+    ElNotification({ type: 'error', message: '获取失败' })
+  }
+
 }
 
 
